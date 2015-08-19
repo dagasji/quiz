@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('Quiz 2015'));
 app.use(session());
+
+
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,10 +38,12 @@ app.use(function(req, res, next) {
   if (!req.path.match(/\/login|\/logout/)) {
     req.session.redir = req.path;
   }
+  
+  
+    // Hacer visible req.session en las vistas
+    res.locals.session = req.session;
+    next();
 
-  // Hacer visible req.session en las vistas
-  res.locals.session = req.session;
-  next();
 });
 
 app.use('/', routes);
