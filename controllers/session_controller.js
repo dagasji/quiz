@@ -33,7 +33,10 @@ exports.create = function(req, res) {
         // Crear req.session.user y guardar campos   id  y  username
         // La sesión se define por la existencia de:    req.session.user
         req.session.user = {id:user.id, username:user.username};
-
+        
+        //se establece la caducidad en 2 minutos (se incluye en milisegundos)
+        req.session.caducidadSesion = Date.now() + (1000 * 60 * 2); 
+        
         res.redirect(req.session.redir.toString());// redirección a path anterior a login
     });
 };

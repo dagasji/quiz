@@ -40,10 +40,22 @@ app.use(function(req, res, next) {
   }
   
   
+  //Si ha caducado la sesión redirigimos a la pantalla de login
+  if (req.session.user != null && (req.session.caducidadSesion == null || req.session.caducidadSesion < Date.now())) {
+      
+    console.info("session caducada");
+    delete req.session.user;
+    res.redirect("/login"); // redirect a pantalla de login
+    
     // Hacer visible req.session en las vistas
     res.locals.session = req.session;
-    next();
-
+    
+  } else {
+      // Hacer visible req.session en las vistas
+      res.locals.session = req.session;
+      next();
+  }
+  
 });
 
 app.use('/', routes);
